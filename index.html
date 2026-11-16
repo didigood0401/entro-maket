@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ENTRO - межкомнатные двери</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--t0:#061317;--t1:#0d2a31;--t2:#1f5163;--mist:#dfe3e2;--paper:#f3f2ef;--ink:#101618;--mute:#6c7476;--ease:cubic-bezier(.22,.7,.1,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font:300 17px/1.6 Jost,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.cap{font-size:12px;letter-spacing:.32em;text-transform:uppercase;font-weight:400}
+.serif{font-family:"Cormorant Garamond",serif;font-weight:400}
+
+/* splash */
+.splash{position:fixed;inset:0;z-index:100;background:linear-gradient(180deg,var(--t0) 0%,var(--t1) 45%,var(--t2) 100%);display:grid;place-items:center;transition:transform 1.2s var(--ease)}
+.splash.out{transform:translateY(-100%)}
+.splash .in{text-align:center}
+.splash img{width:min(300px,62vw);opacity:0;letter-spacing:.4em;transform:scale(1.06);filter:blur(6px);transition:opacity 1.2s var(--ease),transform 1.6s var(--ease),filter 1.2s}
+.splash.on img{opacity:1;transform:none;filter:none}
+.splash .cap{display:block;margin-top:22px;color:#a8c3c9;opacity:0;transition:opacity 1s .7s}
+.splash.on .cap{opacity:1}
+.splash .bar{position:absolute;left:50%;bottom:12vh;width:120px;height:1px;background:rgba(255,255,255,.15);transform:translateX(-50%);overflow:hidden}
+.splash .bar i{position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform 2s var(--ease)}
+.splash.on .bar i{transform:none}
+
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:50;color:#fff;transition:background .5s,color .5s,backdrop-filter .5s}
+header.light{background:rgba(243,242,239,.86);backdrop-filter:blur(14px);color:var(--ink)}
+.hd{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:84px;padding:0 44px}
+.hd nav{display:flex;gap:34px;font-size:15px;letter-spacing:.04em}
+.hd nav a{position:relative;opacity:.85;transition:opacity .3s}
+.hd nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:1px;background:currentColor;transition:right .4s var(--ease)}
+.hd nav a:hover{opacity:1}.hd nav a:hover::after{right:0}
+.hd .lg img{height:22px;transition:filter .5s}
+header.light .lg img{filter:invert(1) brightness(.2)}
+.hd .ic{justify-self:end;display:flex;gap:6px}
+.hd .ic button{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;transition:background .3s}
+.hd .ic button:hover{background:rgba(255,255,255,.14)}
+header.light .ic button:hover{background:rgba(0,0,0,.06)}
+.hd .ic svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.4}
+.burger{display:none}
+
+/* hero */
+.hero{position:relative;height:100vh;min-height:640px;overflow:hidden;background:linear-gradient(180deg,var(--t0) 0%,var(--t1) 38%,#3f6b76 72%,#9fb3b4 100%);color:#fff}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero .fallback{position:absolute;inset:0;background:url(img/canyon.jpg) center/cover;opacity:0;transition:opacity 1s}
+.hero.nogl .fallback{opacity:.6}
+.hero .tx{position:absolute;left:0;right:0;top:17vh;text-align:center;pointer-events:none;padding:0 20px}
+.hero h1{font-weight:300;font-size:clamp(36px,5.2vw,76px);line-height:1.05;letter-spacing:.01em}
+.hero h1 em{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:400}
+.hero .tx p{margin-top:20px;color:#bcd0d4;font-size:17px}
+.hero .tx>*{opacity:0;transform:translateY(20px);transition:opacity 1.2s var(--ease),transform 1.4s var(--ease)}
+.ready .hero .tx>*{opacity:1;transform:none}.ready .hero .tx>*:nth-child(2){transition-delay:.15s}
+.tag{position:absolute;pointer-events:none;color:#fff;font-size:13px;letter-spacing:.2em;text-transform:uppercase;transform:translate(-50%,-100%);opacity:0;transition:opacity .3s;white-space:nowrap;text-align:center}
+.tag.on{opacity:1}.tag small{display:block;letter-spacing:.1em;text-transform:none;color:#cfe0e3;font-size:13px}
+.hero .low{position:absolute;left:44px;right:44px;bottom:30px;display:flex;justify-content:space-between;align-items:end;font-size:14px;color:var(--t1)}
+.hero .low a{display:inline-flex;align-items:center;gap:12px;pointer-events:auto}
+.hero .low a i{width:46px;height:46px;border:1px solid rgba(13,42,49,.45);border-radius:50%;display:grid;place-items:center;transition:background .3s,color .3s}
+.hero .low a:hover i{background:var(--t1);color:#fff}
+.scroll{display:flex;align-items:center;gap:12px}
+.scroll i{width:1px;height:46px;background:rgba(13,42,49,.25);position:relative;overflow:hidden}
+.scroll i::after{content:"";position:absolute;left:0;top:-50%;width:1px;height:50%;background:var(--t1);animation:sc 2.2s var(--ease) infinite}
+@keyframes sc{to{top:110%}}
+
+/* mission */
+.mis{position:relative;height:260vh}
+.mis .st{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center;color:#fff}
+.mis .bg{position:absolute;inset:-4%;background:url(img/canyon.jpg) center 60%/cover;transform:scale(1.12);will-change:transform}
+.mis .st::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,19,23,.55),rgba(6,19,23,.25) 40%,rgba(6,19,23,.6))}
+.mis .c{position:relative;z-index:2;max-width:980px;padding:0 24px;text-align:center}
+.mis .c .cap{color:#cfe0e3;margin-bottom:28px;display:block}
+.mis .c h2{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(28px,3.4vw,50px);line-height:1.22}
+.mis .c h2 span{opacity:.14;transition:opacity .45s}
+.mis .c h2 span.on{opacity:1}
+.mis .yr{position:absolute;z-index:2;left:44px;bottom:40px;display:flex;gap:56px;color:#fff}
+.mis .yr div{opacity:0;transform:translateY(16px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.mis .yr.on div{opacity:1;transform:none}.mis .yr.on div:nth-child(2){transition-delay:.12s}.mis .yr.on div:nth-child(3){transition-delay:.24s}
+.mis .yr b{display:block;font-weight:300;font-size:46px;line-height:1}
+.mis .yr span{font-size:13px;color:#cfe0e3;letter-spacing:.06em}
+
+/* door strip -> two collections */
+.strip{position:relative;background:var(--paper);padding-top:0}
+.strip .line{height:34vh;position:relative}
+.strip .line i{position:absolute;left:50%;top:0;width:min(120px,22vw);transform:translateX(-50%);height:0;border:1px solid var(--ink);border-top:0;border-radius:0 0 4px 4px;transition:height .1s linear}
+.strip .line i::after{content:"";position:absolute;right:14%;top:60%;width:18%;height:1px;background:var(--ink)}
+.strip .line .cap{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);color:var(--mute)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:100vh}
+.col{position:relative;overflow:hidden;display:block;color:#fff;isolation:isolate;min-height:92vh}
+.col img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transform:scale(1.08);transition:transform 1.6s var(--ease)}
+.col.in img{transform:scale(1)}
+.col:hover img{transform:scale(1.04)}
+.col::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,var(--paper) 0%,rgba(243,242,239,0) 22%,rgba(0,0,0,0) 60%,rgba(0,0,0,.5))}
+.col .nm{position:absolute;right:34px;top:50%;writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg);font-size:clamp(48px,6.2vw,104px);font-weight:300;letter-spacing:.18em;line-height:1;color:rgba(255,255,255,.92);mix-blend-mode:overlay}
+.col .info{position:absolute;left:40px;bottom:40px;right:40px;display:flex;justify-content:space-between;align-items:end;gap:20px}
+.col .info h3{font-weight:300;font-size:34px;letter-spacing:.14em}
+.col .info p{font-size:15px;color:#e4ebeb;max-width:320px}
+.more{display:inline-flex;align-items:center;gap:12px;font-size:14px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.more i{width:46px;height:46px;border:1px solid currentColor;border-radius:50%;display:grid;place-items:center;transition:background .3s,color .3s}
+.col:hover .more i{background:#fff;color:var(--ink)}
+
+/* drum */
+.drum{padding:130px 0 120px;background:var(--paper);overflow:hidden}
+.drum .h{text-align:center;margin-bottom:30px}
+.drum .h .cap{color:var(--mute)}
+.drum .h h2{font-weight:300;font-size:clamp(34px,4.4vw,64px);letter-spacing:.02em;margin-top:14px}
+.drum .h h2 em{font-family:"Cormorant Garamond",serif;font-style:italic}
+.stage{position:relative;height:560px;perspective:2200px;cursor:grab;touch-action:pan-y;user-select:none}
+.stage:active{cursor:grabbing}
+.ring{position:absolute;left:50%;top:44%;width:0;height:0;transform-style:preserve-3d}
+.card{position:absolute;left:-150px;top:-190px;width:300px;height:380px;background:#ddd;overflow:hidden;backface-visibility:hidden;transition:filter .5s,box-shadow .5s;box-shadow:0 30px 50px -30px rgba(0,0,0,.35)}
+.card img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.card b{position:absolute;left:18px;bottom:14px;font-weight:400;letter-spacing:.26em;font-size:14px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.stage .floor{position:absolute;left:10%;right:10%;bottom:40px;height:60px;background:radial-gradient(50% 50% at 50% 50%,rgba(0,0,0,.18),rgba(0,0,0,0));filter:blur(6px)}
+.now{display:flex;justify-content:center;align-items:center;gap:34px;margin-top:-30px}
+.now .nm{min-width:220px;text-align:center}
+.now .nm b{display:block;font-weight:300;font-size:30px;letter-spacing:.3em}
+.now .nm span{font-size:14px;color:var(--mute)}
+.now button.ar{width:54px;height:54px;border-radius:50%;border:1px solid #c9ccc9;display:grid;place-items:center;transition:background .3s,color .3s,border-color .3s}
+.now button.ar:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.now svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.4}
+.cta-row{text-align:center;margin-top:36px}
+.btn{display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 34px;border:1px solid var(--ink);font-size:14px;letter-spacing:.18em;text-transform:uppercase;transition:background .3s,color .3s}
+.btn:hover{background:var(--ink);color:#fff}
+
+/* dealer + footer */
+.deal{margin:0 44px;background:linear-gradient(180deg,var(--t1),var(--t2));color:#fff;padding:90px 70px;display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:end}
+.deal h2{font-weight:300;font-size:clamp(32px,3.6vw,54px);line-height:1.08}
+.deal h2 em{font-family:"Cormorant Garamond",serif;font-style:italic}
+.deal p{color:#c9dbde;margin-bottom:26px}
+.deal .btn{border-color:#fff}.deal .btn:hover{background:#fff;color:var(--t1)}
+footer{padding:80px 44px 50px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;font-size:15px;color:#4a5355}
+footer h4{font-weight:400;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--mute);margin-bottom:18px}
+footer ul{list-style:none;display:grid;gap:9px}
+footer a:hover{color:var(--ink)}
+footer .lg img{height:20px;filter:invert(1) brightness(.2);margin-bottom:22px}
+.mk{position:fixed;right:18px;bottom:18px;z-index:60;background:rgba(16,22,24,.86);color:#cfe0e3;font-size:12px;padding:8px 12px;letter-spacing:.04em}
+.rv{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.mis .c h2 span{opacity:1}}
+@media (max-width:900px){
+ .hd{padding:0 18px;height:66px;grid-template-columns:auto 1fr auto}
+ .hd nav{display:none}.burger{display:grid!important}
+ .hd .lg{justify-self:center}.hd .lg img{height:17px}
+ .hero .tx{top:16vh}.hero .low{left:18px;right:18px}
+ .mis .yr{left:18px;gap:26px}.mis .yr b{font-size:32px}
+ .cols{grid-template-columns:1fr}.col{min-height:80vh}
+ .col .info{left:20px;right:20px;bottom:24px;flex-direction:column;align-items:flex-start}
+ .stage{height:470px}.card{left:-105px;top:-140px;width:210px;height:270px}
+ .now{gap:14px}.now .nm{min-width:150px}.now .nm b{font-size:22px}
+ .deal{margin:0 16px;padding:44px 24px;grid-template-columns:1fr;gap:20px}
+ footer{grid-template-columns:1fr 1fr;padding:56px 18px 70px}
+ .mk{display:none}
+}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body class="lock">
+<div class="splash" id="splash"><div class="in"><img src="img/logo-w.png" alt="ENTRO"><span class="cap">межкомнатные двери</span></div><div class="bar"><i></i></div></div>
+
+<header id="hd"><div class="hd">
+ <nav><a href="#top">Главная</a><a href="#drum">Каталог</a><a href="#mis">Компания</a><a href="#deal">Стать дилером</a><a href="#ft">Контакты</a></nav>
+ <button class="burger" aria-label="Меню" style="width:44px;height:44px;place-items:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 8h16M4 16h16"/></svg></button>
+ <a class="lg" href="#top" aria-label="ENTRO"><img src="img/logo-w.png" alt="ENTRO"></a>
+ <div class="ic"><button aria-label="Поиск"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></button><button aria-label="Личный кабинет"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></svg></button></div>
+</div></header>
+
+<main id="top">
+ <section class="hero" id="hero">
+  <div class="fallback"></div>
+  <canvas id="gl"></canvas>
+  <div class="tx"><h1>Двери, в которых<br><em>живёт архитектура</em></h1><p>Эксклюзивные межкомнатные двери ENTRO · с 2022 года</p></div>
+  <div class="tag" id="tag"></div>
+  <div class="low"><div class="scroll"><i></i>Листайте</div><a href="#drum">Смотреть каталог <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a></div>
+ </section>
+
+ <section class="mis" id="mis"><div class="st">
+  <div class="bg" id="misBg"></div>
+  <div class="c"><span class="cap">Миссия компании</span><h2 id="misT">С 2022 года компания ENTRO создаёт межкомнатные двери с эксклюзивным и индивидуальным дизайном, уделяя особое внимание стилю и делая акцент на деталях. Результат такого подхода - неповторимые продукты, которые создаёт команда ENTRO.</h2></div>
+  <div class="yr" id="yr"><div><b>2022</b><span>год основания</span></div><div><b>12</b><span>коллекций</span></div><div><b>24</b><span>вида стёкол</span></div></div>
+ </div></section>
+
+ <section class="strip" id="strip">
+  <div class="line" id="line"><i id="lineI"></i><span class="cap">Коллекции 2026</span></div>
+  <div class="cols">
+   <a class="col" href="#drum" data-go="0"><img src="img/canyon.jpg" alt="Коллекция Aria"><span class="nm">ARIA</span><div class="info"><div><h3>ARIA</h3><p>Рельефные филёнки и мягкая геометрия арки.</p></div><span class="more">Коллекция <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></span></div></a>
+   <a class="col" href="#drum" data-go="1"><img src="img/b-magic.jpg" alt="Коллекция Magic" style="object-position:78% 50%"><span class="nm">MAGIC</span><div class="info"><div><h3>MAGIC</h3><p>Строгие линии и тёплые природные оттенки.</p></div><span class="more">Коллекция <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></span></div></a>
+  </div>
+ </section>
+
+ <section class="drum" id="drum">
+  <div class="h rv"><span class="cap">Каталог</span><h2>Витрина <em>коллекций</em></h2></div>
+  <div class="stage" id="stage"><div class="ring" id="ring"></div><div class="floor"></div></div>
+  <div class="now"><button class="ar" id="prev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><div class="nm"><b id="cur">ARIA</b><span id="curN">01 / 12</span></div><button class="ar" id="next" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div>
+  <div class="cta-row"><a class="btn" href="#">Смотреть коллекцию</a></div>
+ </section>
+
+ <section class="deal rv" id="deal"><div><span class="cap" style="color:#a8c3c9">Партнёрам</span><h2 style="margin-top:18px">Станьте дилером <em>ENTRO</em></h2></div><div><p>Эксклюзивные коллекции, обучение и поддержка продаж. Каталог 2025/2026 и условия - по запросу.</p><a class="btn" href="#">Стать дилером</a></div></section>
+</main>
+
+<footer id="ft">
+ <div><a class="lg" href="#top"><img src="img/logo-w.png" alt="ENTRO"></a><p>ООО ЭНТРО<br>Чувашская Республика, г. Новочебоксарск, ул. Промышленная, 52</p></div>
+ <div><h4>Каталог</h4><ul><li><a href="#">Межкомнатные двери</a></li><li><a href="#">Стеновые панели</a></li><li><a href="#">Декоративные рейки</a></li><li><a href="#">Погонажные изделия</a></li><li><a href="#">Стёкла</a></li><li><a href="#">Покрытия</a></li></ul></div>
+ <div><h4>Компания</h4><ul><li><a href="#mis">О компании</a></li><li><a href="#deal">Стать дилером</a></li><li><a href="#ft">Контакты</a></li></ul></div>
+ <div><h4>Связь</h4><ul><li><a href="tel:+79877350040">8 987 735 00 40</a></li><li><a href="tel:+79199727942">8 919 972 79 42</a></li><li><a href="mailto:Zakaz@entro-design.ru">Zakaz@entro-design.ru</a></li></ul></div>
+</footer>
+<div class="mk">Макет первой страницы · ENTRO</div>
+
+<script>
+/* splash */
+const sp=document.getElementById('splash');
+requestAnimationFrame(()=>sp.classList.add('on'));
+setTimeout(()=>{sp.classList.add('out');document.body.classList.remove('lock');document.documentElement.classList.add('ready')},2600);
+setTimeout(()=>sp.remove(),4000);
+
+/* header color */
+const hd=document.getElementById('hd'),hero=document.getElementById('hero'),mis=document.getElementById('mis');
+function onS(){const y=scrollY,h=innerHeight,mEnd=mis.offsetTop+mis.offsetHeight-h;hd.classList.toggle('light',y>mEnd-60);
+ /* mission parallax + words */
+ const k=Math.min(1,Math.max(0,(y-mis.offsetTop)/(mis.offsetHeight-h)));
+ document.getElementById('misBg').style.transform=`scale(${1.12-k*.1}) translateY(${-k*3}%)`;
+ const n=Math.floor(k*1.25*W.length);W.forEach((w,i)=>w.classList.toggle('on',i<n));
+ document.getElementById('yr').classList.toggle('on',k>.72);
+ /* door line */
+ const L=document.getElementById('line'),r=L.getBoundingClientRect(),q=Math.min(1,Math.max(0,(h-r.top)/(r.height+h*.25)));document.getElementById('lineI').style.height=(q*72)+'%';
+}
+const T=document.getElementById('misT');T.innerHTML=T.textContent.split(' ').map(w=>`<span>${w}</span>`).join(' ');const W=[...T.querySelectorAll('span')];
+addEventListener('scroll',()=>requestAnimationFrame(onS),{passive:true});onS();
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
+document.querySelectorAll('.rv,.col').forEach(e=>io.observe(e));
+
+/* drum */
+const C=[['ARIA','aria'],['MAGIC','magic'],['ZERO','zero'],['TOSCANA','toscana'],['GALANT','galant'],['FREEDOM','freedom'],['HIDDEN','hidden'],['RIFT','rift'],['WINDOW','window'],['GRADIENT','gradient'],['SKY','sky'],['CAREER','career']];
+const ring=document.getElementById('ring'),N=C.length,step=360/N;
+ring.innerHTML=C.map(c=>`<div class="card"><img src="img/c-${c[1]}.jpg" alt="Коллекция ${c[0]}" loading="lazy"><b>${c[0]}</b></div>`).join('');
+const cards=[...ring.children];let R=innerWidth<900?480:720,rot=0,target=0,vel=0,drag=null,auto=true,last=performance.now();
+function layout(){R=innerWidth<900?480:720;cards.forEach((c,i)=>c.dataset.a=i*step)}layout();addEventListener('resize',layout);
+function frame(t){const dt=Math.min(50,t-last);last=t;
+ if(drag===null){if(auto)target-=dt*.004;rot+=(target-rot)*.08}
+ ring.style.transform=`translateZ(${-R}px) rotateY(${rot}deg)`;
+ let best=0,bd=999;cards.forEach((c,i)=>{const a=i*step,ang=((a+rot)%360+540)%360-180;c.style.transform=`rotateY(${a}deg) translateZ(${R}px)`;const d=Math.abs(ang);c.style.filter=`brightness(${1-Math.min(.45,d/300)})`;if(d<bd){bd=d;best=i}});
+ if(best!==cur){cur=best;document.getElementById('cur').textContent=C[cur][0];document.getElementById('curN').textContent=String(cur+1).padStart(2,'0')+' / '+N}
+ requestAnimationFrame(frame)}
+let cur=-1;requestAnimationFrame(frame);
+const goTo=i=>{auto=false;const want=-i*step;let d=((want-target)%360+540)%360-180;target+=d;clearTimeout(goTo.t);goTo.t=setTimeout(()=>auto=true,6000)};
+document.getElementById('next').onclick=()=>goTo((cur+1)%N);document.getElementById('prev').onclick=()=>goTo((cur-1+N)%N);
+const st=document.getElementById('stage');
+st.addEventListener('pointerdown',e=>{drag={x:e.clientX,r:target};auto=false;st.setPointerCapture(e.pointerId)});
+st.addEventListener('pointermove',e=>{if(!drag)return;target=drag.r+(e.clientX-drag.x)*.25;rot+=(target-rot)*.5});
+const end=()=>{if(!drag)return;drag=null;target=Math.round(target/step)*step;clearTimeout(goTo.t);goTo.t=setTimeout(()=>auto=true,6000)};
+st.addEventListener('pointerup',end);st.addEventListener('pointercancel',end);
+document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',()=>setTimeout(()=>goTo(+a.dataset.go),500)));
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+const hero=document.getElementById('hero'),cv=document.getElementById('gl'),tag=document.getElementById('tag');
+let r;try{r=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){hero.classList.add('nogl');throw e}
+r.setPixelRatio(Math.min(2,devicePixelRatio));r.toneMapping=THREE.ACESFilmicToneMapping;r.toneMappingExposure=1.05;r.shadowMap.enabled=true;r.shadowMap.type=THREE.PCFSoftShadowMap;
+const s=new THREE.Scene();s.fog=new THREE.Fog(0x2f5d68,12,42);
+s.environment=new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(),.04).texture;
+const cam=new THREE.PerspectiveCamera(28,1,.1,100);
+s.add(new THREE.HemisphereLight(0xdbe9ec,0x30484d,.55));
+const key=new THREE.DirectionalLight(0xfff4e8,3.2);key.position.set(-9,5,4);key.castShadow=true;key.shadow.mapSize.set(2048,2048);key.shadow.camera.left=-9;key.shadow.camera.right=9;key.shadow.camera.top=6;key.shadow.camera.bottom=-2;key.shadow.radius=6;key.shadow.bias=-.0005;s.add(key);
+const rim=new THREE.DirectionalLight(0x9fd2dc,1.2);rim.position.set(5,3,-6);s.add(rim);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(400,400),new THREE.MeshStandardMaterial({color:0xaab9b9,roughness:.9}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;s.add(floor);
+const pick=[['aria','Shape1','ARIA','#b98468'],['magic','Box027','MAGIC','#cbb99d'],['aria','Shape80','ARIA','#e8e6e1'],['magic','Box015','MAGIC','#3a4043'],['aria','Shape114','ARIA','#a9b9b0'],['magic','Shape096','MAGIC','#b23a3f'],['aria','Shape98','ARIA','#cdb8c9']];
+const L=new FBXLoader(),src={};
+const load=n=>new Promise((ok,no)=>L.load('models/'+n+'.fbx',ok,undefined,no));
+const doors=[];
+Promise.all([load('aria'),load('magic')]).then(([a,m])=>{src.aria=a;src.magic=m;
+ const sp=1.55,n=pick.length;
+ pick.forEach(([f,name,col,color],i)=>{let mesh=null;src[f].traverse(o=>{if(o.isMesh&&o.name===name)mesh=o});if(!mesh)return;
+  mesh.updateWorldMatrix(true,false);const g=mesh.geometry.clone().applyMatrix4(mesh.matrixWorld);g.computeBoundingBox();const b=g.boundingBox,c=new THREE.Vector3();b.getCenter(c);g.translate(-c.x,-b.min.y,-c.z);
+  const k=2.3/(b.max.y-b.min.y);g.scale(k,k,k);g.computeVertexNormals();
+  const mat=new THREE.MeshPhysicalMaterial({color:new THREE.Color(color),roughness:.5,metalness:0,clearcoat:.35,clearcoatRoughness:.4});
+  const d=new THREE.Mesh(g,mat);d.castShadow=true;d.receiveShadow=true;
+  const grp=new THREE.Group();grp.add(d);grp.position.set((i-(n-1)/2)*sp,0,Math.abs(i-(n-1)/2)*-.18);grp.rotation.y=(i-(n-1)/2)*-.07;
+  grp.userData={col,i,base:grp.rotation.y,lift:0};s.add(grp);doors.push(grp)});
+ document.documentElement.classList.add('gl-ready');
+}).catch(()=>hero.classList.add('nogl'));
+function size(){const w=hero.clientWidth,h=hero.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();cam.zoom=w<700?.5:1;cam.updateProjectionMatrix()}
+size();addEventListener('resize',size);
+const ray=new THREE.Raycaster(),mp=new THREE.Vector2(9,9);let mx=0,my=0,hov=null,vis=true;
+hero.addEventListener('pointermove',e=>{const b=hero.getBoundingClientRect();mp.x=(e.clientX-b.left)/b.width*2-1;mp.y=-(e.clientY-b.top)/b.height*2+1;mx=mp.x;my=mp.y});
+hero.addEventListener('pointerleave',()=>{mp.set(9,9)});
+new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(hero);
+const clk=new THREE.Clock(),v=new THREE.Vector3();
+(function loop(){requestAnimationFrame(loop);if(!vis)return;const t=clk.getElapsedTime();
+ /* cinematic drift: slow dolly + orbit */
+ const ox=Math.sin(t*.09)*1.2+mx*.5,oz=17-Math.min(1.6,t*.08);cam.position.set(ox,2.1+my*.2+Math.sin(t*.13)*.06,oz);cam.lookAt(ox*.3,2.75,0);
+ ray.setFromCamera(mp,cam);const hit=ray.intersectObjects(doors,true)[0];const h=hit?hit.object.parent:null;
+ if(h!==hov){hov=h;hero.style.cursor=h?'pointer':''}
+ doors.forEach(d=>{const on=d===hov;d.userData.lift+=((on?1:0)-d.userData.lift)*.08;d.position.y=d.userData.lift*.06;d.rotation.y=d.userData.base*(1-d.userData.lift)+Math.sin(t*.4+d.userData.i)*.015;d.children[0].position.z=d.userData.lift*.35});
+ if(hov){v.set(0,2.45,0).applyMatrix4(hov.matrixWorld).project(cam);tag.style.left=(v.x*.5+.5)*100+'%';tag.style.top=(-v.y*.5+.5)*100+'%';tag.innerHTML=hov.userData.col+'<small>смотреть коллекцию</small>';tag.classList.add('on')}else tag.classList.remove('on');
+ r.render(s,cam)})();
+hero.addEventListener('click',()=>{if(hov)document.getElementById('drum').scrollIntoView({behavior:'smooth'})});
+</script>
+</body></html>
